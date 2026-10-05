@@ -9,26 +9,26 @@ st.write("Seleccioná el estado actual de tus materias para verificar automátic
 
 # Inicializar estados en la sesión si no existen
 materias = [
-    # Primer Año
+    # Primer Año (12)
     "Psicología y Educación", "Pedagogía", "Sociología de la Educación", 
     "Historia Argentina y Latinoamericana", "Movimiento y Cuerpo I", "Taller de Práctica I",
     "Comunicación y Expresión Oral y Escrita", "Resolución de Problemas y Creatividad", 
     "Ciencias Naturales para una Cultura Ciudadana", "Problemáticas de las Ciencias Sociales", 
     "Área Estético Expresiva I", "Problemáticas Contemporáneas de la Educación Primaria I",
-    # Segundo Año
+    # Segundo Año (10)
     "Didáctica General", "Filosofía de la Educación", "Conocimiento y Educación", 
     "Movimiento y Cuerpo II", "Taller de Práctica II", "Matemática y su Didáctica I", 
     "Ciencias Naturales y su Didáctica I", "Ciencias Sociales y su Didáctica I", 
     "Lengua y su Didáctica", "Sujeto de la Educación Primaria", 
+    # Tercer Año (12)
     "Tecnologías de la Información y de la Comunicación", 
     "Historia Social de la Educación y Política Educativa Argentina",
-    # Tercer Año
     "Taller de Práctica III", "Matemática y su Didáctica II", "Ciencias Naturales y su Didáctica II", 
     "Ciencias Sociales y su Didáctica II", "Literatura y su Didáctica", "Alfabetización Inicial", 
     "Área Estético Expresiva II", "Problemáticas Contemporáneas de la Educación Primaria II", 
     "Espacio de Definición Institucional I", "Espacio de Definición Institucional II", 
+    # Cuarto Año (3)
     "Ética, Trabajo Docente, Derechos Humanos y Ciudadanía",
-    # Cuarto Año
     "Taller de Práctica IV", "Sexualidad Humana y Educación"
 ]
 
@@ -92,14 +92,14 @@ def evaluar_materias(m):
     elif m == "Sujeto de la Educación Primaria":
         cursar = "Sin correlativas"
         rendir = "Habilitada" if get_e("Psicología y Educación") == "Aprobada" else "Faltan correlativas"
+
+    # --- TERCER AÑO ---
     elif m == "Tecnologías de la Información y de la Comunicación":
         cursar = "Sin correlativas"
         rendir = "Sin correlativas"
     elif m == "Historia Social de la Educación y Política Educativa Argentina":
         cursar = "Sin correlativas"
         rendir = "Habilitada" if get_e("Historia Argentina y Latinoamericana") == "Aprobada" and get_e("Sociología de la Educación") == "Aprobada" else "Faltan correlativas"
-
-    # --- TERCER AÑO ---
     elif m == "Taller de Práctica III":
         aprobadas_1ro = sum([1 for x in materias[:12] if get_e(x) == "Aprobada"])
         cond_cursar = (aprobadas_1ro == 12 and get_e("Taller de Práctica II") == "Aprobada" and
@@ -136,20 +136,19 @@ def evaluar_materias(m):
     elif m in ["Espacio de Definición Institucional I", "Espacio de Definición Institucional II"]:
         cursar = "Sin correlativas"
         rendir = "Sin correlativas"
+
+    # --- CUARTO AÑO ---
     elif m == "Ética, Trabajo Docente, Derechos Humanos y Ciudadanía":
         cursar = "Sin correlativas"
         rendir = "Habilitada" if get_e("Filosofía de la Educación") == "Aprobada" and get_e("Historia Social de la Educación y Política Educativa Argentina") == "Aprobada" else "Faltan correlativas"
-
-    # --- CUARTO AÑO ---
     elif m == "Taller de Práctica IV":
-        aprobadas_2do = sum([1 for x in materias[12:24] if get_e(x) == "Aprobada"])
-        cond_cursar = (aprobadas_2do == 12 and get_e("Taller de Práctica III") == "Aprobada" and
+        aprobadas_2do = sum([1 for x in materias[12:22] if get_e(x) == "Aprobada"]) # Ahora son 10 materias en 2do año
+        cond_cursar = (aprobadas_2do == 10 and get_e("Taller de Práctica III") == "Aprobada" and
                        get_e("Matemática y su Didáctica II") in ["Regular", "Aprobada"] and
                        get_e("Ciencias Sociales y su Didáctica II") in ["Regular", "Aprobada"] and
                        get_e("Ciencias Naturales y su Didáctica II") in ["Regular", "Aprobada"] and
                        get_e("Literatura y su Didáctica") in ["Regular", "Aprobada"] and
-                       get_e("Alfabetización Inicial") in ["Regular", "Aprobada"] and
-                       get_e("Ética, Trabajo Docente, Derechos Humanos y Ciudadanía") in ["Regular", "Aprobada"])
+                       get_e("Alfabetización Inicial") in ["Regular", "Aprobada"])
         cursar = "Habilitada" if cond_cursar else "Faltan correlativas"
         rendir = "Sin correlativas"
     elif m == "Sexualidad Humana y Educación":
@@ -179,8 +178,8 @@ def renderizar_materias(lista_materias):
 with tab1:
     renderizar_materias(materias[:12])
 with tab2:
-    renderizar_materias(materias[12:24])
+    renderizar_materias(materias[12:22])
 with tab3:
-    renderizar_materias(materias[24:35])
+    renderizar_materias(materias[22:34])
 with tab4:
-    renderizar_materias(materias[35:])
+    renderizar_materias(materias[34:])
