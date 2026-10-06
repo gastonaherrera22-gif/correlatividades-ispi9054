@@ -52,7 +52,7 @@ def evaluar_materias(m):
     # --- PRIMER AÑO ---
     if m in materias[:12]:
         cursar = "Sin correlativas"
-        rendir = "Sin correlativas" if get_e(m) != "Pendiente" else "Faltan correlativas"
+        rendir = "Sin correlativas"
 
     # --- SEGUNDO AÑO ---
     elif m == "Didáctica General":
@@ -142,7 +142,7 @@ def evaluar_materias(m):
         cursar = "Sin correlativas"
         rendir = "Habilitada" if get_e("Filosofía de la Educación") == "Aprobada" and get_e("Historia Social de la Educación y Política Educativa Argentina") == "Aprobada" else "Faltan correlativas"
     elif m == "Taller de Práctica IV":
-        aprobadas_2do = sum([1 for x in materias[12:22] if get_e(x) == "Aprobada"]) # Ahora son 10 materias en 2do año
+        aprobadas_2do = sum([1 for x in materias[12:22] if get_e(x) == "Aprobada"])
         cond_cursar = (aprobadas_2do == 10 and get_e("Taller de Práctica III") == "Aprobada" and
                        get_e("Matemática y su Didáctica II") in ["Regular", "Aprobada"] and
                        get_e("Ciencias Sociales y su Didáctica II") in ["Regular", "Aprobada"] and
