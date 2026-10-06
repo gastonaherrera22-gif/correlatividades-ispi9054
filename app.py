@@ -3,7 +3,7 @@ import pandas as pd
 
 st.set_page_config(page_title="Correlatividades - ISPI 9054", page_icon="📚", layout="wide")
 
-st.title("📚 Validador de Correlatividades - ISPI Nº 9054")
+st.title("📚 Verificador de correlatividades - ISPI Nº 9054")
 st.markdown("### Profesorado de Educación Primaria")
 st.write("Seleccioná el estado actual de tus materias para verificar automáticamente cuáles tenés habilitadas para cursar y rendir.")
 
