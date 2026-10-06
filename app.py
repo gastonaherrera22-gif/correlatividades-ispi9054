@@ -172,7 +172,8 @@ def renderizar_materias(lista_materias):
         color_c = "green" if c in ["Habilitada", "Sin correlativas"] else "red"
         color_r = "green" if r in ["Habilitada", "Sin correlativas"] else "red"
         
-        col3.markdown(f"<span style='font-size:0.9em'>Cursar: <strong style='color:{color_c}'>{c}</strong> | Rendir: <strong style='color:{color_r}'>{r}</strong></span>", unsafe_allow_html=True)
+        # Aplicamos el salto de línea <br> para evitar que el texto se mezcle en pantallas chicas
+        col3.markdown(f"<div style='font-size:0.95em; line-height:1.5;'>Cursar: <strong style='color:{color_c}'>{c}</strong><br>Rendir: <strong style='color:{color_r}'>{r}</strong></div>", unsafe_allow_html=True)
         st.divider()
 
 with tab1: renderizar_materias(materias[:12])
