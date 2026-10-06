@@ -90,7 +90,7 @@ def evaluar_materias(m):
         cursar = "Sin correlativas"
         rendir = "Habilitada" if get_e("Comunicación y Expresión Oral y Escrita") == "Aprobada" else "Faltan correlativas"
     elif m == "Sujeto de la Educación Primaria":
-        cursar = "Sin correlativas"
+        cursar = "Habilitada" if get_e("Psicología y Educación") in ["Regular", "Aprobada"] else "Faltan correlativas"
         rendir = "Habilitada" if get_e("Psicología y Educación") == "Aprobada" else "Faltan correlativas"
 
     # --- TERCER AÑO ---
@@ -98,7 +98,7 @@ def evaluar_materias(m):
         cursar = "Sin correlativas"
         rendir = "Sin correlativas"
     elif m == "Historia Social de la Educación y Política Educativa Argentina":
-        cursar = "Sin correlativas"
+        cursar = "Habilitada" if get_e("Historia Argentina y Latinoamericana") in ["Regular", "Aprobada"] else "Faltan correlativas"
         rendir = "Habilitada" if get_e("Historia Argentina y Latinoamericana") == "Aprobada" and get_e("Sociología de la Educación") == "Aprobada" else "Faltan correlativas"
     elif m == "Taller de Práctica III":
         aprobadas_1ro = sum([1 for x in materias[:12] if get_e(x) == "Aprobada"])
@@ -113,13 +113,13 @@ def evaluar_materias(m):
         cursar = "Habilitada" if cond_cursar else "Faltan correlativas"
         rendir = "Sin correlativas"
     elif m == "Matemática y su Didáctica II":
-        cursar = "Sin correlativas"
+        cursar = "Habilitada" if get_e("Matemática y su Didáctica I") in ["Regular", "Aprobada"] else "Faltan correlativas"
         rendir = "Habilitada" if get_e("Matemática y su Didáctica I") == "Aprobada" else "Faltan correlativas"
     elif m == "Ciencias Naturales y su Didáctica II":
-        cursar = "Sin correlativas"
+        cursar = "Habilitada" if get_e("Ciencias Naturales y su Didáctica I") in ["Regular", "Aprobada"] else "Faltan correlativas"
         rendir = "Habilitada" if get_e("Ciencias Naturales y su Didáctica I") == "Aprobada" else "Faltan correlativas"
     elif m == "Ciencias Sociales y su Didáctica II":
-        cursar = "Sin correlativas"
+        cursar = "Habilitada" if get_e("Ciencias Sociales y su Didáctica I") in ["Regular", "Aprobada"] else "Faltan correlativas"
         rendir = "Habilitada" if get_e("Ciencias Sociales y su Didáctica I") == "Aprobada" else "Faltan correlativas"
     elif m == "Literatura y su Didáctica":
         cursar = "Sin correlativas"
@@ -133,13 +133,17 @@ def evaluar_materias(m):
     elif m == "Problemáticas Contemporáneas de la Educación Primaria II":
         cursar = "Sin correlativas"
         rendir = "Habilitada" if get_e("Problemáticas Contemporáneas de la Educación Primaria I") == "Aprobada" else "Faltan correlativas"
-    elif m in ["Espacio de Definición Institucional I", "Espacio de Definición Institucional II"]:
+    elif m == "Espacio de Definición Institucional I":
         cursar = "Sin correlativas"
         rendir = "Sin correlativas"
+    elif m == "Espacio de Definición Institucional II":
+        cursar = "Habilitada" if get_e("Espacio de Definición Institucional I") in ["Regular", "Aprobada"] else "Faltan correlativas"
+        rendir = "Habilitada" if get_e("Espacio de Definición Institucional I") == "Aprobada" else "Faltan correlativas"
 
     # --- CUARTO AÑO ---
     elif m == "Ética, Trabajo Docente, Derechos Humanos y Ciudadanía":
-        cursar = "Sin correlativas"
+        aprobadas_2do = sum([1 for x in materias[12:22] if get_e(x) == "Aprobada"])
+        cursar = "Habilitada" if aprobadas_2do == 10 else "Faltan correlativas"
         rendir = "Habilitada" if get_e("Filosofía de la Educación") == "Aprobada" and get_e("Historia Social de la Educación y Política Educativa Argentina") == "Aprobada" else "Faltan correlativas"
     elif m == "Taller de Práctica IV":
         aprobadas_2do = sum([1 for x in materias[12:22] if get_e(x) == "Aprobada"])
@@ -152,7 +156,8 @@ def evaluar_materias(m):
         cursar = "Habilitada" if cond_cursar else "Faltan correlativas"
         rendir = "Sin correlativas"
     elif m == "Sexualidad Humana y Educación":
-        cursar = "Sin correlativas"
+        aprobadas_2do = sum([1 for x in materias[12:22] if get_e(x) == "Aprobada"])
+        cursar = "Habilitada" if aprobadas_2do == 10 else "Faltan correlativas"
         rendir = "Sin correlativas"
 
     return cursar, rendir
