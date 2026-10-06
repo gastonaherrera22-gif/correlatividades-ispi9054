@@ -142,18 +142,26 @@ def evaluar_materias(m):
         rendir = "Sin correlativas"
 
     # --- CUARTO AÑO ---
-    elif m == "Ética, Trabajo Docente, Derechos Humanos y Ciudadanía":
-        cursar = "Habilitada" if reg("Filosofía de la Educación") and reg("Conocimiento y Educación") and reg("Historia Social de la Educación y Política Educativa Argentina") else "Faltan correlativas"
-        rendir = "Habilitada" if apr("Filosofía de la Educación") and apr("Conocimiento y Educación") and apr("Historia Social de la Educación y Política Educativa Argentina") else "Faltan correlativas"
-    elif m == "Taller de Práctica IV":
+    elif m in materias[34:]:
         aprobadas_2do = sum([1 for x in materias[12:22] if apr(x)])
-        cond_c = (aprobadas_2do == 10 and apr("Taller de Práctica III") and apr("Área Estético Expresiva II") and
-                  reg("Matemática y su Didáctica II") and reg("Ciencias Sociales y su Didáctica II") and 
-                  reg("Ciencias Naturales y su Didáctica II") and reg("Literatura y su Didáctica") and 
-                  reg("Alfabetización Inicial") and reg("Tecnologías de la Información y de la Comunicación") and 
-                  reg("Problemáticas Contemporáneas de la Educación Primaria II"))
-        cursar = "Habilitada" if cond_c else "Faltan correlativas"
-        rendir = "Sin correlativas"
+        
+        if m == "Ética, Trabajo Docente, Derechos Humanos y Ciudadanía":
+            cond_c = aprobadas_2do == 10 and reg("Filosofía de la Educación") and reg("Conocimiento y Educación") and reg("Historia Social de la Educación y Política Educativa Argentina")
+            cursar = "Habilitada" if cond_c else "Faltan correlativas"
+            rendir = "Habilitada" if apr("Filosofía de la Educación") and apr("Conocimiento y Educación") and apr("Historia Social de la Educación y Política Educativa Argentina") else "Faltan correlativas"
+            
+        elif m == "Taller de Práctica IV":
+            cond_c = (aprobadas_2do == 10 and apr("Taller de Práctica III") and apr("Área Estético Expresiva II") and
+                      reg("Matemática y su Didáctica II") and reg("Ciencias Sociales y su Didáctica II") and 
+                      reg("Ciencias Naturales y su Didáctica II") and reg("Literatura y su Didáctica") and 
+                      reg("Alfabetización Inicial") and reg("Tecnologías de la Información y de la Comunicación") and 
+                      reg("Problemáticas Contemporáneas de la Educación Primaria II"))
+            cursar = "Habilitada" if cond_c else "Faltan correlativas"
+            rendir = "Sin correlativas"
+            
+        elif m == "Sexualidad Humana y Educación":
+            cursar = "Habilitada" if aprobadas_2do == 10 else "Faltan correlativas"
+            rendir = "Sin correlativas"
 
     return cursar, rendir
 
@@ -172,7 +180,6 @@ def renderizar_materias(lista_materias):
         color_c = "green" if c in ["Habilitada", "Sin correlativas"] else "red"
         color_r = "green" if r in ["Habilitada", "Sin correlativas"] else "red"
         
-        # Aplicamos el salto de línea <br> para evitar que el texto se mezcle en pantallas chicas
         col3.markdown(f"<div style='font-size:0.95em; line-height:1.5;'>Cursar: <strong style='color:{color_c}'>{c}</strong><br>Rendir: <strong style='color:{color_r}'>{r}</strong></div>", unsafe_allow_html=True)
         st.divider()
 
