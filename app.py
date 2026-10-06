@@ -3,7 +3,7 @@ import pandas as pd
 
 st.set_page_config(page_title="Correlatividades - ISPI 9054", page_icon="📚", layout="wide")
 
-st.title("📚 Verificador de correlatividades - ISPI Nº 9054")
+st.title("📚 Validador de Correlatividades - ISPI Nº 9054")
 st.markdown("### Profesorado de Educación Primaria")
 st.write("Seleccioná el estado actual de tus materias para verificar automáticamente cuáles tenés habilitadas para cursar y rendir.")
 
@@ -35,12 +35,55 @@ materias = [
 if 'estados' not in st.session_state:
     st.session_state.estados = {m: "Pendiente" for m in materias}
 
+# Función auxiliar para los botones de lote
+def set_estado_lote(rango_materias, estado):
+    for m in rango_materias:
+        st.session_state.estados[m] = estado
+        st.session_state[f"sel_{m}"] = estado
+
 # Sidebar para control global
 st.sidebar.header("Panel de Control")
-if st.sidebar.button("Marcar todo como Pendiente"):
-    for m in materias:
-        st.session_state.estados[m] = "Pendiente"
-        st.session_state[f"sel_{m}"] = "Pendiente"
+if st.sidebar.button("Resetear todo a Pendiente", type="primary"):
+    set_estado_lote(materias, "Pendiente")
+    st.rerun()
+
+st.sidebar.divider()
+st.sidebar.markdown("**Acciones Rápidas por Año**")
+
+st.sidebar.markdown("Primer Año")
+col1, col2 = st.sidebar.columns(2)
+if col1.button("Regular", key="1r"): 
+    set_estado_lote(materias[:12], "Regular")
+    st.rerun()
+if col2.button("Aprobado", key="1a"): 
+    set_estado_lote(materias[:12], "Aprobada")
+    st.rerun()
+
+st.sidebar.markdown("Segundo Año")
+col3, col4 = st.sidebar.columns(2)
+if col3.button("Regular", key="2r"): 
+    set_estado_lote(materias[12:22], "Regular")
+    st.rerun()
+if col4.button("Aprobado", key="2a"): 
+    set_estado_lote(materias[12:22], "Aprobada")
+    st.rerun()
+
+st.sidebar.markdown("Tercer Año")
+col5, col6 = st.sidebar.columns(2)
+if col5.button("Regular", key="3r"): 
+    set_estado_lote(materias[22:34], "Regular")
+    st.rerun()
+if col6.button("Aprobado", key="3a"): 
+    set_estado_lote(materias[22:34], "Aprobada")
+    st.rerun()
+
+st.sidebar.markdown("Cuarto Año")
+col7, col8 = st.sidebar.columns(2)
+if col7.button("Regular", key="4r"): 
+    set_estado_lote(materias[34:], "Regular")
+    st.rerun()
+if col8.button("Aprobado", key="4a"): 
+    set_estado_lote(materias[34:], "Aprobada")
     st.rerun()
 
 def get_e(m):
