@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="Correlatividades - ISPI 9054", page_icon="📚", layout="wide")
 
-st.title("📚 Verificador de correlatividades - ISPI Nº 9054")
+st.title("📚 Validador de Correlatividades - ISPI Nº 9054")
 st.markdown("### Profesorado de Educación Primaria")
 st.write("Seleccioná el estado actual de tus materias para verificar automáticamente cuáles tenés habilitadas para cursar y rendir.")
 
@@ -72,7 +72,6 @@ def reg(m): return get_e(m) in ["Regular", "Aprobada"]
 def apr(m): return get_e(m) == "Aprobada"
 
 def evaluar_materias(m):
-    # Por defecto
     cursar = "Sin correlativas"
     rendir = "Sin correlativas"
 
@@ -81,71 +80,84 @@ def evaluar_materias(m):
         return cursar, rendir
 
     # --- SEGUNDO AÑO ---
-    elif m == "Didáctica General":
-        cursar = "Habilitada" if reg("Pedagogía") and reg("Psicología y Educación") else "Faltan correlativas"
-        rendir = "Habilitada" if apr("Pedagogía") and apr("Psicología y Educación") else "Faltan correlativas"
-    elif m == "Movimiento y Cuerpo II":
-        cursar = "Habilitada" if reg("Movimiento y Cuerpo I") else "Faltan correlativas"
-        rendir = "Habilitada" if apr("Movimiento y Cuerpo I") else "Faltan correlativas"
-    elif m == "Matemática y su Didáctica I":
-        cursar = "Habilitada" if reg("Resolución de Problemas y Creatividad") else "Faltan correlativas"
-        rendir = "Habilitada" if apr("Resolución de Problemas y Creatividad") else "Faltan correlativas"
-    elif m == "Ciencias Naturales y su Didáctica I":
-        cursar = "Habilitada" if reg("Ciencias Naturales para una Cultura Ciudadana") else "Faltan correlativas"
-        rendir = "Habilitada" if apr("Ciencias Naturales para una Cultura Ciudadana") else "Faltan correlativas"
-    elif m == "Ciencias Sociales y su Didáctica I":
-        cursar = "Habilitada" if reg("Problemáticas de las Ciencias Sociales") else "Faltan correlativas"
-        rendir = "Habilitada" if apr("Problemáticas de las Ciencias Sociales") else "Faltan correlativas"
-    elif m == "Lengua y su Didáctica":
-        cursar = "Habilitada" if reg("Comunicación y Expresión Oral y Escrita") else "Faltan correlativas"
-        rendir = "Habilitada" if apr("Comunicación y Expresión Oral y Escrita") else "Faltan correlativas"
-    elif m == "Sujeto de la Educación Primaria":
-        cursar = "Habilitada" if reg("Psicología y Educación") else "Faltan correlativas"
-        rendir = "Habilitada" if apr("Psicología y Educación") else "Faltan correlativas"
-    elif m == "Taller de Práctica II":
-        talleres_esp = sum([1 for x in ["Comunicación y Expresión Oral y Escrita", "Resolución de Problemas y Creatividad", 
-                                       "Ciencias Naturales para una Cultura Ciudadana", "Problemáticas de las Ciencias Sociales", 
-                                       "Área Estético Expresiva I", "Problemáticas Contemporáneas de la Educación Primaria I"] if apr(x)])
-        cond_c = apr("Taller de Práctica I") and reg("Pedagogía") and reg("Psicología y Educación") and talleres_esp >= 3
-        cursar = "Habilitada" if cond_c else "Faltan correlativas"
-        rendir = "Sin correlativas"
+    elif m in materias[12:22]:
+        if m == "Didáctica General":
+            cursar = "Habilitada" if reg("Pedagogía") and reg("Psicología y Educación") else "Faltan correlativas"
+            rendir = "Habilitada" if apr("Pedagogía") and apr("Psicología y Educación") else "Faltan correlativas"
+        elif m == "Filosofía de la Educación" or m == "Conocimiento y Educación":
+            cursar = "Sin correlativas"
+            rendir = "Sin correlativas"
+        elif m == "Movimiento y Cuerpo II":
+            cursar = "Habilitada" if reg("Movimiento y Cuerpo I") else "Faltan correlativas"
+            rendir = "Habilitada" if apr("Movimiento y Cuerpo I") else "Faltan correlativas"
+        elif m == "Matemática y su Didáctica I":
+            cursar = "Habilitada" if reg("Resolución de Problemas y Creatividad") else "Faltan correlativas"
+            rendir = "Habilitada" if apr("Resolución de Problemas y Creatividad") else "Faltan correlativas"
+        elif m == "Ciencias Naturales y su Didáctica I":
+            cursar = "Habilitada" if reg("Ciencias Naturales para una Cultura Ciudadana") else "Faltan correlativas"
+            rendir = "Habilitada" if apr("Ciencias Naturales para una Cultura Ciudadana") else "Faltan correlativas"
+        elif m == "Ciencias Sociales y su Didáctica I":
+            cursar = "Habilitada" if reg("Problemáticas de las Ciencias Sociales") else "Faltan correlativas"
+            rendir = "Habilitada" if apr("Problemáticas de las Ciencias Sociales") else "Faltan correlativas"
+        elif m == "Lengua y su Didáctica":
+            cursar = "Habilitada" if reg("Comunicación y Expresión Oral y Escrita") else "Faltan correlativas"
+            rendir = "Habilitada" if apr("Comunicación y Expresión Oral y Escrita") else "Faltan correlativas"
+        elif m == "Sujeto de la Educación Primaria":
+            cursar = "Habilitada" if reg("Psicología y Educación") else "Faltan correlativas"
+            rendir = "Habilitada" if apr("Psicología y Educación") else "Faltan correlativas"
+        elif m == "Taller de Práctica II":
+            talleres_esp = sum([1 for x in ["Comunicación y Expresión Oral y Escrita", "Resolución de Problemas y Creatividad", 
+                                           "Ciencias Naturales para una Cultura Ciudadana", "Problemáticas de las Ciencias Sociales", 
+                                           "Área Estético Expresiva I", "Problemáticas Contemporáneas de la Educación Primaria I"] if apr(x)])
+            cond_c = apr("Taller de Práctica I") and reg("Pedagogía") and reg("Psicología y Educación") and talleres_esp >= 3
+            cursar = "Habilitada" if cond_c else "Faltan correlativas"
+            rendir = "Sin correlativas"
 
     # --- TERCER AÑO ---
-    elif m == "Historia Social de la Educación y Política Educativa Argentina":
-        cursar = "Habilitada" if reg("Historia Argentina y Latinoamericana") and reg("Sociología de la Educación") else "Faltan correlativas"
-        rendir = "Habilitada" if apr("Historia Argentina y Latinoamericana") and apr("Sociología de la Educación") else "Faltan correlativas"
-    elif m == "Literatura y su Didáctica" or m == "Alfabetización Inicial":
-        cursar = "Habilitada" if reg("Lengua y su Didáctica") and reg("Didáctica General") else "Faltan correlativas"
-        rendir = "Habilitada" if apr("Lengua y su Didáctica") and apr("Didáctica General") else "Faltan correlativas"
-    elif m == "Matemática y su Didáctica II":
-        cursar = "Habilitada" if reg("Matemática y su Didáctica I") and reg("Didáctica General") else "Faltan correlativas"
-        rendir = "Habilitada" if apr("Matemática y su Didáctica I") and apr("Didáctica General") else "Faltan correlativas"
-    elif m == "Ciencias Naturales y su Didáctica II":
-        cursar = "Habilitada" if reg("Ciencias Naturales y su Didáctica I") and reg("Didáctica General") else "Faltan correlativas"
-        rendir = "Habilitada" if apr("Ciencias Naturales y su Didáctica I") and apr("Didáctica General") else "Faltan correlativas"
-    elif m == "Ciencias Sociales y su Didáctica II":
-        cursar = "Habilitada" if reg("Ciencias Sociales y su Didáctica I") and reg("Didáctica General") else "Faltan correlativas"
-        rendir = "Habilitada" if apr("Ciencias Sociales y su Didáctica I") and apr("Didáctica General") else "Faltan correlativas"
-    elif m == "Área Estético Expresiva II":
-        cursar = "Habilitada" if reg("Área Estético Expresiva I") else "Faltan correlativas"
-        rendir = "Habilitada" if apr("Área Estético Expresiva I") else "Faltan correlativas"
-    elif m == "Problemáticas Contemporáneas de la Educación Primaria II":
-        cursar = "Habilitada" if reg("Problemáticas Contemporáneas de la Educación Primaria I") else "Faltan correlativas"
-        rendir = "Habilitada" if apr("Problemáticas Contemporáneas de la Educación Primaria I") else "Faltan correlativas"
-    elif m == "Taller de Práctica III":
-        aprobadas_1ro = sum([1 for x in materias[:12] if apr(x)])
-        cond_c = (aprobadas_1ro == 12 and apr("Taller de Práctica II") and
-                  reg("Didáctica General") and reg("Matemática y su Didáctica I") and 
-                  reg("Ciencias Sociales y su Didáctica I") and reg("Ciencias Naturales y su Didáctica I") and 
-                  reg("Lengua y su Didáctica") and reg("Sujeto de la Educación Primaria") and reg("Conocimiento y Educación"))
-        cursar = "Habilitada" if cond_c else "Faltan correlativas"
-        rendir = "Sin correlativas"
+    elif m in materias[22:34]:
+        todo_1ro = sum([1 for x in materias[:12] if apr(x)]) == 12
+
+        if m == "Historia Social de la Educación y Política Educativa Argentina":
+            cursar = "Habilitada" if todo_1ro and reg("Historia Argentina y Latinoamericana") else "Faltan correlativas"
+            rendir = "Habilitada" if apr("Historia Argentina y Latinoamericana") and apr("Sociología de la Educación") else "Faltan correlativas"
+        elif m == "Literatura y su Didáctica" or m == "Alfabetización Inicial":
+            cursar = "Habilitada" if todo_1ro and reg("Lengua y su Didáctica") and reg("Didáctica General") else "Faltan correlativas"
+            rendir = "Habilitada" if apr("Lengua y su Didáctica") and apr("Didáctica General") else "Faltan correlativas"
+        elif m == "Matemática y su Didáctica II":
+            cursar = "Habilitada" if todo_1ro and reg("Matemática y su Didáctica I") else "Faltan correlativas"
+            rendir = "Habilitada" if apr("Matemática y su Didáctica I") and apr("Didáctica General") else "Faltan correlativas"
+        elif m == "Ciencias Naturales y su Didáctica II":
+            cursar = "Habilitada" if todo_1ro and reg("Ciencias Naturales y su Didáctica I") else "Faltan correlativas"
+            rendir = "Habilitada" if apr("Ciencias Naturales y su Didáctica I") and apr("Didáctica General") else "Faltan correlativas"
+        elif m == "Ciencias Sociales y su Didáctica II":
+            cursar = "Habilitada" if todo_1ro and reg("Ciencias Sociales y su Didáctica I") else "Faltan correlativas"
+            rendir = "Habilitada" if apr("Ciencias Sociales y su Didáctica I") and apr("Didáctica General") else "Faltan correlativas"
+        elif m == "Área Estético Expresiva II":
+            cursar = "Habilitada" if todo_1ro and reg("Área Estético Expresiva I") else "Faltan correlativas"
+            rendir = "Habilitada" if apr("Área Estético Expresiva I") else "Faltan correlativas"
+        elif m == "Problemáticas Contemporáneas de la Educación Primaria II":
+            cursar = "Habilitada" if todo_1ro and reg("Problemáticas Contemporáneas de la Educación Primaria I") else "Faltan correlativas"
+            rendir = "Habilitada" if apr("Problemáticas Contemporáneas de la Educación Primaria I") else "Faltan correlativas"
+        elif m == "Taller de Práctica III":
+            cond_c = (todo_1ro and apr("Taller de Práctica II") and
+                      reg("Didáctica General") and reg("Matemática y su Didáctica I") and 
+                      reg("Ciencias Sociales y su Didáctica I") and reg("Ciencias Naturales y su Didáctica I") and 
+                      reg("Lengua y su Didáctica") and reg("Sujeto de la Educación Primaria") and reg("Conocimiento y Educación"))
+            cursar = "Habilitada" if cond_c else "Faltan correlativas"
+            rendir = "Sin correlativas"
+        elif m == "Espacio de Definición Institucional I":
+            cursar = "Habilitada" if todo_1ro else "Faltan correlativas"
+            rendir = "Sin correlativas"
+        elif m == "Espacio de Definición Institucional II":
+            cursar = "Habilitada" if todo_1ro and reg("Espacio de Definición Institucional I") else "Faltan correlativas"
+            rendir = "Habilitada" if apr("Espacio de Definición Institucional I") else "Faltan correlativas"
+        else:
+            cursar = "Habilitada" if todo_1ro else "Faltan correlativas"
+            rendir = "Sin correlativas"
 
     # --- CUARTO AÑO ---
     elif m in materias[34:]:
-        aprobadas_1ro = sum([1 for x in materias[:12] if apr(x)])
-        aprobadas_2do = sum([1 for x in materias[12:22] if apr(x)])
-        todo_1ro_2do = (aprobadas_1ro == 12 and aprobadas_2do == 10)
+        todo_1ro_2do = (sum([1 for x in materias[:12] if apr(x)]) == 12 and sum([1 for x in materias[12:22] if apr(x)]) == 10)
         
         if m == "Ética, Trabajo Docente, Derechos Humanos y Ciudadanía":
             cond_c = todo_1ro_2do and reg("Filosofía de la Educación") and reg("Conocimiento y Educación") and reg("Historia Social de la Educación y Política Educativa Argentina")
